@@ -6,5 +6,5 @@ interface TextProps {
 
 export default function Text({ block }: TextProps) {
   const { id, type, options, data } = block;
-  return <h1 id={id}>Text</h1>;
+  return <h1 id={id}>{data?.text}</h1>;
 }

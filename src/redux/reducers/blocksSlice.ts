@@ -10,7 +10,40 @@ const initialState: State = {
     type: "Column",
     id: "main",
     options: { height: "100%", width: "100%" },
-    children: [],
+    children: [
+      {
+        type: "Layout",
+        id: "dasd",
+        options: { width: "100%", display: "flex" },
+        children: [
+          {
+            type: "Column",
+            id: "main22",
+            options: { width: "50%", minHeight: "100px" },
+            children: [],
+          },
+          {
+            type: "Column",
+            id: "main22d",
+            options: { width: "50%", minHeight: "100px" },
+            children: [],
+          },
+        ],
+      },
+      {
+        type: "Layout",
+        id: "dasd",
+        options: { width: "100%", display: "flex" },
+        children: [
+          {
+            type: "Column",
+            id: "main22",
+            options: { width: "100%", minHeight: "100px" },
+            children: [],
+          },
+        ],
+      },
+    ],
   } as Block, // Initialize with an empty block or appropriate default values
 };
 
