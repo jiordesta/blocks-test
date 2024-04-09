@@ -1,3 +1,9 @@
+import CreateWebsite from "./pages/CreateWebsite";
+
 export default function App() {
-  return <div>App</div>;
+  return (
+    <div>
+      <CreateWebsite />
+    </div>
+  );
 }

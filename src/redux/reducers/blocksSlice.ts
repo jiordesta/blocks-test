@@ -6,7 +6,12 @@ interface State {
 }
 
 const initialState: State = {
-  block: {} as Block, // Initialize with an empty block or appropriate default values
+  block: {
+    type: "Column",
+    id: "main",
+    options: { height: "100%", width: "100%" },
+    children: [],
+  } as Block, // Initialize with an empty block or appropriate default values
 };
 
 const blocksSlice = createSlice({
