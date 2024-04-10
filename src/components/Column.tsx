@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Block } from "../utils/blocks";
 import Wrapper from "./Wrapper";
 import { useDispatch } from "react-redux";
-import { add_block, delete_block } from "../redux/reducers/blocksSlice";
+import {
+  add_block,
+  add_style,
+  delete_block,
+} from "../redux/reducers/blocksSlice";
 
 interface ColumnProps {
   block: Block;
@@ -13,7 +17,7 @@ export default function Column({ block }: ColumnProps) {
   const classBtn =
     "bg-slate-400 px-2 py-1 rounded-lg w-full hover:bg-opacity-75 transition-all ease-in-out duration-300";
 
-  const { id, type, options, children } = block;
+  const { id, options, children } = block;
   const [showAddBlock, setShowAddBlock] = useState(false);
   const [showEditBlock, setShowEditBlock] = useState(false);
 
@@ -21,7 +25,7 @@ export default function Column({ block }: ColumnProps) {
 
   const AddBlockModal = () => {
     return (
-      <div className="fixed inset-0 w-full h-full flex justify-center items-center z-50">
+      <div className="fixed inset-0 w-full h-full flex justify-center items-center z-50 text-black">
         <div className="w-1/4 bg-slate-300 rounded-lg p-2 space-y-2">
           <button
             className={classBtn}
@@ -46,9 +50,9 @@ export default function Column({ block }: ColumnProps) {
   };
 
   const EditBlockStyleModal = () => {
-    const [style, setStyle] = useState("");
+    const [styles, setStyles] = useState("");
     return (
-      <div className="fixed inset-0 w-full h-full flex justify-center items-center z-50">
+      <div className="fixed inset-0 w-full h-full flex justify-center items-center z-50 text-black">
         <div className="w-1/4 bg-slate-300 rounded-lg p-2 space-y-2">
           <textarea
             name=""
@@ -56,8 +60,16 @@ export default function Column({ block }: ColumnProps) {
             rows={5}
             className="w-full rounded-lg"
             placeholder="Add styling here."
-            onChange={(e) => setStyle(e.target.value)}
+            onChange={(e) => setStyles(e.target.value)}
           />
+          <button
+            className={classBtn}
+            onClick={() => {
+              dispatch(add_style({ id, styles: JSON.parse(styles) }));
+            }}
+          >
+            Add style
+          </button>
           <button className={classBtn} onClick={() => setShowEditBlock(false)}>
             Cancel
           </button>

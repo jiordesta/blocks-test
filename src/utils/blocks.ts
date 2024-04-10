@@ -6,11 +6,8 @@ export type BlockType = "Text" | "Image" | "Layout" | "Column";
 export type Block = {
   id: BlockId;
   type: BlockType;
-  options?: Record<
-    string,
-    string | number | boolean | string[] | Object | null
-  >;
-  data?: Record<string, string | number | null>;
+  options?: Object;
+  data?: Object;
   children?: Block[];
 };
 
@@ -36,14 +33,14 @@ export const createNewBlock = (type: BlockType): Block => {
       id,
       type,
       options: {},
-      data: {},
+      data: { value: "" },
     };
   } else {
     return {
       id,
       type,
       options: {},
-      data: {},
+      data: { value: "" },
     };
   }
 };

@@ -53,6 +53,18 @@ const findBlockAndDelete = (block: Block, id: BlockId): Block => {
   return block;
 };
 
+const addBlockStyling = (block: Block, id: BlockId, styles: Object): Block => {
+  if (block.id === id) {
+    block.options = { ...block.options, ...styles };
+    return block;
+  } else {
+    block.children?.map((block) => {
+      addBlockStyling(block, id, styles);
+    });
+  }
+  return block;
+};
+
 const blocksSlice = createSlice({
   name: "block",
   initialState,
@@ -66,8 +78,15 @@ const blocksSlice = createSlice({
     delete_block: (state, action) => {
       state.block = findBlockAndDelete(state.block, action.payload);
     },
+    add_style: (state, action) => {
+      state.block = addBlockStyling(
+        state.block,
+        action.payload.id,
+        action.payload.styles
+      );
+    },
   },
 });
 
-export const { add_block, delete_block } = blocksSlice.actions;
+export const { add_block, delete_block, add_style } = blocksSlice.actions;
 export default blocksSlice.reducer;
