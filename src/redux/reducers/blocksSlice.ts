@@ -58,6 +58,21 @@ const findBlockAndAddNewBlock = (
   return block;
 };
 
+const findBlockAndDelete = (block: Block, id: BlockId) => {
+  if (block.children && block.children.length > 0) {
+    if (block.children.find((block) => block.id === id)) {
+      //find index of child and remove
+      block.children = block.children.filter((block) => block.id !== id);
+      return block;
+    } else {
+      block.children.forEach((block) => {
+        findBlockAndDelete(block, id);
+      });
+    }
+  }
+  return block;
+};
+
 const blocksSlice = createSlice({
   name: "block",
   initialState,
@@ -67,15 +82,18 @@ const blocksSlice = createSlice({
         state.block,
         {
           type: "Column",
-          id: "main22d",
+          id: "main22dd",
           options: { width: "50%", minHeight: "100px" },
           children: [],
         },
         "dasd"
       );
     },
+    delete_block: (state, action) => {
+      state.block = findBlockAndDelete(state.block, "main22dd");
+    },
   },
 });
 
-export const { add_block } = blocksSlice.actions;
+export const { add_block, delete_block } = blocksSlice.actions;
 export default blocksSlice.reducer;

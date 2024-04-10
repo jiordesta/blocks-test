@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Block } from "../utils/blocks";
 import Wrapper from "./Wrapper";
+import { useDispatch } from "react-redux";
+import { delete_block } from "../redux/reducers/blocksSlice";
 
 interface ColumnProps {
   block: Block;
@@ -10,6 +12,8 @@ export default function Column({ block }: ColumnProps) {
   const { id, type, options, children } = block;
   const [showAddBlock, setShowAddBlock] = useState(false);
   const [showEditBlock, setShowEditBlock] = useState(false);
+
+  const dispatch = useDispatch();
 
   const AddBlockModal = () => {
     return (
@@ -32,7 +36,12 @@ export default function Column({ block }: ColumnProps) {
           >
             <img src="/icons/add.svg" width={25} alt="" />
           </button>
-          <button className="bg-black bg-opacity-5 p-1 rounded-full">
+          <button
+            className="bg-black bg-opacity-5 p-1 rounded-full"
+            onClick={() => {
+              dispatch(delete_block("lll"));
+            }}
+          >
             <img src="/icons/add.svg" className="rotate-45" width={25} alt="" />
           </button>
         </div>
