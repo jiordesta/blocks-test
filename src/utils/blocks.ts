@@ -14,32 +14,36 @@ export type Block = {
   children?: Block[];
 };
 
-const Column: Block = {
-  id: v4(),
-  type: "Column",
-  options: { width: "100%" },
-  children: [],
-};
+export const createNewBlock = (type: BlockType): Block => {
+  const id: BlockId = v4();
 
-const Layout: Block = {
-  id: v4(),
-  type: "Layout",
-  options: { width: "100%" },
-  children: [],
+  if (type === "Column") {
+    return {
+      id,
+      type,
+      options: { width: "100%" },
+      children: [],
+    };
+  } else if (type === "Layout") {
+    return {
+      id,
+      type,
+      options: { width: "100%", display: "flex" },
+      children: [],
+    };
+  } else if (type === "Text") {
+    return {
+      id,
+      type,
+      options: {},
+      data: {},
+    };
+  } else {
+    return {
+      id,
+      type,
+      options: {},
+      data: {},
+    };
+  }
 };
-
-const Image: Block = {
-  id: v4(),
-  type: "Image",
-  options: {},
-  data: {},
-};
-
-const Text: Block = {
-  id: v4(),
-  type: "Text",
-  options: {},
-  data: {},
-};
-
-export { Column, Layout, Text, Image };

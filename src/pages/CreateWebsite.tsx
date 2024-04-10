@@ -53,7 +53,7 @@ export default function CreateWebsite() {
   };
 
   return (
-    <div className="relative h-screen flex">
+    <div className="relative min-h-screen flex p-[1rem]">
       <Render />
     </div>
   );

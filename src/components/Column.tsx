@@ -21,17 +21,17 @@ export default function Column({ block }: ColumnProps) {
 
   const AddBlockModal = () => {
     return (
-      <div className="fixed inset-0 w-full h-full flex justify-center items-center">
+      <div className="fixed inset-0 w-full h-full flex justify-center items-center z-50">
         <div className="w-1/4 bg-slate-300 rounded-lg p-2 space-y-2">
           <button
             className={classBtn}
-            onClick={() => dispatch(add_block({ type: "Layout", id }))}
+            onClick={() => dispatch(add_block({ type: "Layout", id, size: 1 }))}
           >
             New Layout
           </button>
           <button
             className={classBtn}
-            onClick={() => dispatch(add_block({ type: "Column", id }))}
+            onClick={() => dispatch(add_block({ type: "Column", id, size: 1 }))}
           >
             New Column
           </button>
@@ -47,7 +47,7 @@ export default function Column({ block }: ColumnProps) {
 
   const Controller = () => {
     return (
-      <div className="sticky top-0 right-0 p-1">
+      <div className="sticky top-0 p-1">
         <div className="flex gap-1">
           <button className="bg-black bg-opacity-5 p-1 rounded-full">
             <img src="/icons/edit.svg" width={15} alt="" />
@@ -61,7 +61,7 @@ export default function Column({ block }: ColumnProps) {
           <button
             className="bg-black bg-opacity-5 p-1 rounded-full"
             onClick={() => {
-              dispatch(delete_block(block.id));
+              dispatch(delete_block(id));
             }}
           >
             <img src="/icons/add.svg" className="rotate-45" width={15} alt="" />
@@ -72,24 +72,18 @@ export default function Column({ block }: ColumnProps) {
   };
 
   return (
-    <div
-      id={id}
-      style={options}
-      className={`${
-        children && children.length === 0
-          ? "bg-black bg-opacity-5 border border-black border-dashed"
-          : ""
-      } relative`}
-    >
-      {children && children.length === 0 && (
-        <>
-          <Controller />
-          {showAddBlock && <AddBlockModal />}
-        </>
-      )}
-      {children?.map((block) => {
-        return <Wrapper key={block.id} block={block} />;
-      })}
-    </div>
+    <>
+      <div
+        id={id}
+        style={options}
+        className="bg-black bg-opacity-5 border border-black border-dashed relative"
+      >
+        <Controller />
+        {showAddBlock && <AddBlockModal />}
+        {children?.map((block) => {
+          return <Wrapper key={block.id} block={block} />;
+        })}
+      </div>
+    </>
   );
 }
