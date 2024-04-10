@@ -45,11 +45,35 @@ export default function Column({ block }: ColumnProps) {
     );
   };
 
+  const EditBlockStyleModal = () => {
+    const [style, setStyle] = useState("");
+    return (
+      <div className="fixed inset-0 w-full h-full flex justify-center items-center z-50">
+        <div className="w-1/4 bg-slate-300 rounded-lg p-2 space-y-2">
+          <textarea
+            name=""
+            id=""
+            rows={5}
+            className="w-full rounded-lg"
+            placeholder="Add styling here."
+            onChange={(e) => setStyle(e.target.value)}
+          />
+          <button className={classBtn} onClick={() => setShowEditBlock(false)}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   const Controller = () => {
     return (
       <div className="sticky top-0 p-1">
         <div className="flex gap-1">
-          <button className="bg-black bg-opacity-5 p-1 rounded-full">
+          <button
+            className="bg-black bg-opacity-5 p-1 rounded-full"
+            onClick={() => setShowEditBlock(true)}
+          >
             <img src="/icons/edit.svg" width={15} alt="" />
           </button>
           <button
@@ -80,6 +104,7 @@ export default function Column({ block }: ColumnProps) {
       >
         <Controller />
         {showAddBlock && <AddBlockModal />}
+        {showEditBlock && <EditBlockStyleModal />}
         {children?.map((block) => {
           return <Wrapper key={block.id} block={block} />;
         })}
