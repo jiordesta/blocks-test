@@ -29,19 +29,19 @@ export default function Layout({ block }: LayoutProps) {
 
   const Controller = () => {
     return (
-      <div className="absolute top-0 right-0 p-1">
+      <div className="sticky top-0 right-0 p-1">
         <div className="flex gap-1">
           <button className="bg-black bg-opacity-5 p-1 rounded-full">
-            <img src="/icons/edit.svg" width={25} alt="" />
+            <img src="/icons/edit.svg" width={15} alt="" />
           </button>
           <button
             className="bg-black bg-opacity-5 p-1 rounded-full"
             onClick={() => setShowAddBlock(true)}
           >
-            <img src="/icons/bracket.svg" width={25} alt="" />
+            <img src="/icons/bracket.svg" width={15} alt="" />
           </button>
           <button className="bg-black bg-opacity-5 p-1 rounded-full">
-            <img src="/icons/add.svg" className="rotate-45" width={25} alt="" />
+            <img src="/icons/add.svg" className="rotate-45" width={15} alt="" />
           </button>
         </div>
       </div>
@@ -49,7 +49,15 @@ export default function Layout({ block }: LayoutProps) {
   };
 
   return (
-    <div id={id} style={options} className="relative">
+    <div
+      id={id}
+      style={options}
+      className={`${
+        children && children.length === 0
+          ? "bg-black bg-opacity-5 border border-black border-dashed"
+          : ""
+      } relative`}
+    >
       {children && children.length === 0 && (
         <>
           <Controller />
@@ -57,7 +65,7 @@ export default function Layout({ block }: LayoutProps) {
         </>
       )}
       {children?.map((block) => {
-        return <Wrapper block={block} />;
+        return <Wrapper key={block.id} block={block} />;
       })}
     </div>
   );

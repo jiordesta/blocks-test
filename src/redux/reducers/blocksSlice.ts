@@ -1,5 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Block, BlockId } from "../../utils/blocks";
+import {
+  Block,
+  BlockId,
+  BlockType,
+  Column,
+  Image,
+  Layout,
+  Text,
+} from "../../utils/blocks";
+// @ts-ignore
+import { v4 } from "uuid";
 
 interface State {
   block: Block;
@@ -10,48 +20,39 @@ const initialState: State = {
     type: "Column",
     id: "main",
     options: { height: "100%", width: "100%" },
-    children: [
-      {
-        type: "Layout",
-        id: "dasdd",
-        options: { width: "100%", display: "flex" },
-        children: [
-          {
-            type: "Column",
-            id: "main22",
-            options: { width: "50%", minHeight: "100px" },
-            children: [],
-          },
-          {
-            type: "Column",
-            id: "main22d",
-            options: { width: "50%", minHeight: "100px" },
-            children: [],
-          },
-        ],
-      },
-      {
-        type: "Layout",
-        id: "dasd",
-        options: { width: "100%", display: "flex" },
-        children: [],
-      },
-    ],
+    children: [],
   } as Block, // Initialize with an empty block or appropriate default values
 };
 
 const findBlockAndAddNewBlock = (
   block: Block,
-  newBlock: Block,
+  type: BlockType,
   id: BlockId
 ) => {
+  //get the default block base on type
+  const getNewBlock = (type: BlockType): Block => {
+    let block: Block = Column;
+    if (type === "Image") {
+      block = Image;
+    } else if (type === "Layout") {
+      block = Layout;
+    } else if (type === "Text") {
+      block = Text;
+    } else {
+      block = Column;
+    }
+    return block;
+  };
+  const newBlock: Block = getNewBlock(type);
+  console.log(newBlock);
+
   ///recursively find the block given the id
   if (block.id === id) {
     block.children?.push(newBlock);
   } else {
     if (block.children && block.children.length > 0) {
       block.children.forEach((block) => {
-        findBlockAndAddNewBlock(block, newBlock, id);
+        findBlockAndAddNewBlock(block, type, id);
       });
     }
   }
@@ -78,16 +79,8 @@ const blocksSlice = createSlice({
   initialState,
   reducers: {
     add_block: (state, action) => {
-      state.block = findBlockAndAddNewBlock(
-        state.block,
-        {
-          type: "Column",
-          id: "main22dd",
-          options: { width: "50%", minHeight: "100px" },
-          children: [],
-        },
-        "dasd"
-      );
+      const { type, id } = action.payload;
+      state.block = findBlockAndAddNewBlock(state.block, type, id);
     },
     delete_block: (state, action) => {
       state.block = findBlockAndDelete(state.block, "main22dd");
