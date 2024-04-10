@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Block } from "../../utils/blocks";
+import { Block, BlockId } from "../../utils/blocks";
 
 interface State {
   block: Block;
@@ -13,7 +13,7 @@ const initialState: State = {
     children: [
       {
         type: "Layout",
-        id: "dasd",
+        id: "dasdd",
         options: { width: "100%", display: "flex" },
         children: [
           {
@@ -34,17 +34,28 @@ const initialState: State = {
         type: "Layout",
         id: "dasd",
         options: { width: "100%", display: "flex" },
-        children: [
-          {
-            type: "Column",
-            id: "main22",
-            options: { width: "100%", minHeight: "100px" },
-            children: [],
-          },
-        ],
+        children: [],
       },
     ],
   } as Block, // Initialize with an empty block or appropriate default values
+};
+
+const findBlockAndAddNewBlock = (
+  block: Block,
+  newBlock: Block,
+  id: BlockId
+) => {
+  ///recursively find the block given the id
+  if (block.id === id) {
+    block.children?.push(newBlock);
+  } else {
+    if (block.children && block.children.length > 0) {
+      block.children.forEach((block) => {
+        findBlockAndAddNewBlock(block, newBlock, id);
+      });
+    }
+  }
+  return block;
 };
 
 const blocksSlice = createSlice({
@@ -52,7 +63,16 @@ const blocksSlice = createSlice({
   initialState,
   reducers: {
     add_block: (state, action) => {
-      ///add logic
+      state.block = findBlockAndAddNewBlock(
+        state.block,
+        {
+          type: "Column",
+          id: "main22d",
+          options: { width: "50%", minHeight: "100px" },
+          children: [],
+        },
+        "dasd"
+      );
     },
   },
 });

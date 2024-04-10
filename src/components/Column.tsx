@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Block } from "../utils/blocks";
 import Wrapper from "./Wrapper";
 
@@ -7,10 +8,12 @@ interface ColumnProps {
 
 export default function Column({ block }: ColumnProps) {
   const { id, type, options, children } = block;
+  const [showAddBlock, setShowAddBlock] = useState(false);
+  const [showEditBlock, setShowEditBlock] = useState(false);
 
   const AddBlockModal = () => {
     return (
-      <div className="fixed flex justify-center items-center">
+      <div className="fixed inset-0 w-full h-full flex justify-center items-center">
         <h1>Hello</h1>
       </div>
     );
@@ -23,7 +26,10 @@ export default function Column({ block }: ColumnProps) {
           <button className="bg-black bg-opacity-5 p-1 rounded-full">
             <img src="/icons/edit.svg" width={25} alt="" />
           </button>
-          <button className="bg-black bg-opacity-5 p-1 rounded-full">
+          <button
+            className="bg-black bg-opacity-5 p-1 rounded-full"
+            onClick={() => setShowAddBlock(true)}
+          >
             <img src="/icons/add.svg" width={25} alt="" />
           </button>
           <button className="bg-black bg-opacity-5 p-1 rounded-full">
@@ -38,12 +44,16 @@ export default function Column({ block }: ColumnProps) {
     <div
       id={id}
       style={options}
-      className="border border-black border-opacity-25 relative"
+      className={`${
+        children && children.length === 0
+          ? "bg-black bg-opacity-5 border border-opacity-25 border-black"
+          : ""
+      } relative`}
     >
       {children && children.length === 0 && (
         <>
           <Controller />
-          <AddBlockModal />
+          {showAddBlock && <AddBlockModal />}
         </>
       )}
       {children?.map((block) => {
