@@ -10,9 +10,10 @@ import {
 
 interface ColumnProps {
   block: Block;
+  modeEdit: Boolean;
 }
 
-export default function Column({ block }: ColumnProps) {
+export default function Column({ block, modeEdit }: ColumnProps) {
   //classes
   const classBtn =
     "bg-slate-400 px-2 py-1 rounded-lg w-full hover:bg-opacity-75 transition-all ease-in-out duration-300";
@@ -39,8 +40,18 @@ export default function Column({ block }: ColumnProps) {
           >
             New Column
           </button>
-          <button className={classBtn}>New Text</button>
-          <button className={classBtn}>New Image</button>
+          <button
+            className={classBtn}
+            onClick={() => dispatch(add_block({ type: "Text", id, size: 1 }))}
+          >
+            New Text
+          </button>
+          <button
+            className={classBtn}
+            onClick={() => dispatch(add_block({ type: "Image", id, size: 1 }))}
+          >
+            New Image
+          </button>
           <button className={classBtn} onClick={() => setShowAddBlock(false)}>
             Cancel
           </button>
@@ -80,7 +91,7 @@ export default function Column({ block }: ColumnProps) {
 
   const Controller = () => {
     return (
-      <div className="sticky top-0 p-1">
+      <div className="top-0 p-1 z-40">
         <div className="flex gap-1">
           <button
             className="bg-black bg-opacity-5 p-1 rounded-full"
@@ -108,19 +119,24 @@ export default function Column({ block }: ColumnProps) {
   };
 
   return (
-    <>
+    <div className="relative w-full h-full">
+      {modeEdit && <Controller />}
+      {showAddBlock && <AddBlockModal />}
+      {showEditBlock && <EditBlockStyleModal />}
+
       <div
         id={id}
         style={options}
-        className="bg-black bg-opacity-5 border border-black border-dashed relative"
+        className={`${
+          modeEdit
+            ? "bg-black bg-opacity-5 border border-black border-dashed relative overflow-hidden min-h-[25px] p-1"
+            : ""
+        }`}
       >
-        <Controller />
-        {showAddBlock && <AddBlockModal />}
-        {showEditBlock && <EditBlockStyleModal />}
         {children?.map((block) => {
-          return <Wrapper key={block.id} block={block} />;
+          return <Wrapper key={block.id} block={block} modeEdit={modeEdit} />;
         })}
       </div>
-    </>
+    </div>
   );
 }

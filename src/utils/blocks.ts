@@ -18,14 +18,14 @@ export const createNewBlock = (type: BlockType): Block => {
     return {
       id,
       type,
-      options: { width: "100%" },
+      options: { width: "100%", height: "100%" },
       children: [],
     };
   } else if (type === "Layout") {
     return {
       id,
       type,
-      options: { width: "100%", display: "flex" },
+      options: { width: "100%", height: "100%", display: "flex" },
       children: [],
     };
   } else if (type === "Text") {
@@ -33,13 +33,20 @@ export const createNewBlock = (type: BlockType): Block => {
       id,
       type,
       options: {},
-      data: { value: "" },
+      data: { value: "Sample Text" },
     };
   } else {
     return {
       id,
       type,
-      options: {},
+      options: {
+        objectFit: "cover",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justify: "center",
+        align: "center",
+      },
       data: { value: "" },
     };
   }

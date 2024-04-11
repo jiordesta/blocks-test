@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Block, BlockId, BlockType, createNewBlock } from "../../utils/blocks";
 // @ts-ignore
 import { v4 } from "uuid";
-import { Children } from "react";
 
 interface State {
   block: Block;
@@ -12,7 +11,7 @@ const initialState: State = {
   block: {
     type: "Column",
     id: "main",
-    options: { height: "100%", width: "100%", overflow: "auto" },
+    options: { minHeight: "100vh", width: "100%" },
     children: [],
   } as Block, // Initialize with an empty block or appropriate default values
 };
@@ -65,6 +64,22 @@ const addBlockStyling = (block: Block, id: BlockId, styles: Object): Block => {
   return block;
 };
 
+const addBlockData = (block: Block, id: BlockId, data: String): Block => {
+  if (block.id === id) {
+    if (block.data) {
+      block.data = { value: data };
+    }
+    return block;
+  } else {
+    if (block.children && block.children.length > 0) {
+      block.children.map((block) => {
+        addBlockData(block, id, data);
+      });
+    }
+  }
+  return block;
+};
+
 const blocksSlice = createSlice({
   name: "block",
   initialState,
@@ -85,8 +100,16 @@ const blocksSlice = createSlice({
         action.payload.styles
       );
     },
+    add_data: (state, action) => {
+      state.block = addBlockData(
+        state.block,
+        action.payload.id,
+        action.payload.data
+      );
+    },
   },
 });
 
-export const { add_block, delete_block, add_style } = blocksSlice.actions;
+export const { add_block, delete_block, add_style, add_data } =
+  blocksSlice.actions;
 export default blocksSlice.reducer;

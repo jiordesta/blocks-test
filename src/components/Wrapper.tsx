@@ -6,20 +6,21 @@ import Text from "./Text";
 
 interface WrapperProps {
   block: Block;
+  modeEdit: Boolean;
 }
-export default function Wrapper({ block }: WrapperProps) {
+export default function Wrapper({ block, modeEdit }: WrapperProps) {
   const { type } = block;
 
   return (
     <>
       {type === "Column" ? (
-        <Column block={block} />
+        <Column block={block} modeEdit={modeEdit} />
       ) : type === "Image" ? (
-        <Image block={block} />
+        <Image block={block} modeEdit={modeEdit} />
       ) : type === "Layout" ? (
-        <Layout block={block} />
+        <Layout block={block} modeEdit={modeEdit} />
       ) : type === "Text" ? (
-        <Text block={block} />
+        <Text block={block} modeEdit={modeEdit} />
       ) : null}
     </>
   );

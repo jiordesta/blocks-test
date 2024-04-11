@@ -10,9 +10,10 @@ import {
 
 interface LayoutProps {
   block: Block;
+  modeEdit: Boolean;
 }
 
-export default function Layout({ block }: LayoutProps) {
+export default function Layout({ block, modeEdit }: LayoutProps) {
   //classes
   const classBtn =
     "bg-slate-400 px-2 py-1 rounded-lg w-full hover:bg-opacity-75 transition-all ease-in-out duration-300";
@@ -53,7 +54,7 @@ export default function Layout({ block }: LayoutProps) {
 
   const Controller = () => {
     return (
-      <div className="sticky top-0 p-1">
+      <div className="top-0 p-1 z-40">
         <div className="flex gap-1">
           <button
             className="bg-black bg-opacity-5 p-1 rounded-full"
@@ -108,26 +109,24 @@ export default function Layout({ block }: LayoutProps) {
   };
 
   return (
-    <>
-      <div className="relative">
-        <Controller />
-        {showEditBlock && <EditBlockStyleModal />}
-        {showAddBlock && <AddBlockModal />}
+    <div className="relative w-full h-full">
+      {modeEdit && <Controller />}
+      {showEditBlock && <EditBlockStyleModal />}
+      {showAddBlock && <AddBlockModal />}
 
-        <div
-          id={id}
-          style={options}
-          className={`${
-            children && children?.length > 0
-              ? ""
-              : "bg-black bg-opacity-5 border border-black border-dashed"
-          } `}
-        >
-          {children?.map((block) => {
-            return <Wrapper key={block.id} block={block} />;
-          })}
-        </div>
+      <div
+        id={id}
+        style={options}
+        className={`${
+          modeEdit
+            ? "bg-black bg-opacity-5 border border-black border-dashed relative min-h-[25px] p-1"
+            : ""
+        }`}
+      >
+        {children?.map((block) => {
+          return <Wrapper key={block.id} block={block} modeEdit={modeEdit} />;
+        })}
       </div>
-    </>
+    </div>
   );
 }
